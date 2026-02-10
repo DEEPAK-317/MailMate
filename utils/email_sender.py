@@ -24,5 +24,5 @@ def send_email(recipient, body):
         server.quit()
         return True
     except Exception as e:
-        print("Error sending email:", e)
+        st.error(f"Error sending email: {e}")
         return False

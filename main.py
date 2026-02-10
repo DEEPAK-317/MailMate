@@ -15,10 +15,12 @@ if st.button("Generate & Send Email"):
     else:
         with st.spinner("Generating and sending email..."):
             response = generate_email_response(email_text, tone)
-            send_status = send_email(recipient_email, response)
-            st.subheader("✉️ Response")
-            st.markdown(response, unsafe_allow_html=True)
-            if send_status:
-                st.success(f"Email sent successfully to {recipient_email}")
-            else:
-                st.error("Failed to send the email.")
+            
+            if response:
+                send_status = send_email(recipient_email, response)
+                st.subheader("✉️ Response")
+                st.markdown(response, unsafe_allow_html=True)
+                if send_status:
+                    st.success(f"Email sent successfully to {recipient_email}")
+                else:
+                    st.error("Failed to send the email.")

@@ -12,8 +12,15 @@ Email:
 
 Reply:
 """
-    response = client.chat.completions.create(
-        model="gpt-4",
-        messages=[{"role": "user", "content": prompt}]
-    )
-    return response.choices[0].message.content
+    try:
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[{"role": "user", "content": prompt}]
+        )
+        return response.choices[0].message.content
+    except openai.APIError as e:
+        st.error(f"OpenAI API Error: {e}")
+        return None
+    except Exception as e:
+        st.error(f"An error occurred: {e}")
+        return None
