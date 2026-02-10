@@ -1,7 +1,13 @@
 import streamlit as st
-import openai
+import google.generativeai as genai
 
-client = openai.OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+# Configure the Gemini API
+try:
+    genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
+except KeyError:
+    st.error("GEMINI_API_KEY not found in secrets. Please add it.")
+except Exception as e:
+    st.error(f"Error configuring Gemini: {e}")
 
 def generate_email_response(email_text, tone):
     prompt = f"""
@@ -13,14 +19,9 @@ Email:
 Reply:
 """
     try:
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[{"role": "user", "content": prompt}]
-        )
-        return response.choices[0].message.content
-    except openai.APIError as e:
-        st.error(f"OpenAI API Error: {e}")
-        return None
+        model = genai.GenerativeModel('gemini-1.5-flash')
+        response = model.generate_content(prompt)
+        return response.text
     except Exception as e:
-        st.error(f"An error occurred: {e}")
+        st.error(f"Error generating response with Gemini: {e}")
         return None
