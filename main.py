@@ -1,4 +1,9 @@
 import streamlit as st
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
 from agents.email_agent import generate_email_response
 from utils.email_sender import send_email
 

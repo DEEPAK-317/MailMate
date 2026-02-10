@@ -2,10 +2,14 @@ import streamlit as st
 import google.generativeai as genai
 
 # Configure the Gemini API
+import os
 try:
-    genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
+    api_key = os.getenv("GEMINI_API_KEY")
+    if not api_key:
+        api_key = st.secrets["GEMINI_API_KEY"]
+    genai.configure(api_key=api_key)
 except KeyError:
-    st.error("GEMINI_API_KEY not found in secrets. Please add it.")
+    st.error("GEMINI_API_KEY not found in environment variables or secrets. Please add it.")
 except Exception as e:
     st.error(f"Error configuring Gemini: {e}")
 
