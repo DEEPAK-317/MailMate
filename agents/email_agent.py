@@ -23,7 +23,7 @@ Email:
 Reply:
 """
     try:
-        model = genai.GenerativeModel('gemini-2.0-flash')
+        model = genai.GenerativeModel('gemini-2.5-flash')
         response = model.generate_content(prompt)
         return response.text
     except Exception as e:
